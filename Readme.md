@@ -1,0 +1,1 @@
+https://api.weatherapi.com/v1/current.json?key=c52a4898b8a8446db0771443242707&q=${city}
