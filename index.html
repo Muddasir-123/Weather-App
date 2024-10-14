@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Forecast</title>
+    <link rel="shortcut icon" href="./p3.png" type="image/x-icon" />
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+      }
+      .weather-container {
+        margin: 20px auto;
+        padding: 20px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        width: 80%;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+      }
+      .city-input {
+        margin-bottom: 20px;
+        border: none;
+      }
+      #city-input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 80%;
+        font-weight: 500;
+        font-size: medium;
+        outline:1px solid grey
+      }
+      
+      #search-btn {
+        padding: 10px 20px;
+        font-size: medium;
+        font-weight: 500;
+        background-color: #007bff;
+        color: #fff;
+        margin-top: 5px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .weather-info {
+        text-align: center;
+      }
+      #weather-icon {
+        height: 50px;
+        width: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="weather-container">
+      <img src="" id="weather-icon" alt="" />
+      <div class="city-input">
+        <input type="text" id="city-input" placeholder="Enter city Name..." />
+        <button id="search-btn">Search</button>
+      </div>
+      <div class="weather-info">
+        <h1 id="city"></h1>
+        <p id="temperature"></p>
+        <p id="humidity"></p>
+        <p id="wind-speed"></p>
+      </div>
+    </div>
+    <script>
+      const cityInput = document.getElementById("city-input");
+      const searchBtn = document.getElementById("search-btn");
+      const cityElement = document.getElementById("city");
+      const weatherIconElement = document.getElementById("weather-icon");
+      const temperatureElement = document.getElementById("temperature");
+      const humidityElement = document.getElementById("humidity");
+      const windSpeedElement = document.getElementById("wind-speed");
+      const weatherInfo=document.querySelector('.weather-info')
+      const time=document.createElement('h4')
+      weatherInfo.appendChild(time)
+      searchBtn.addEventListener("click", () => {
+        const city = cityInput.value;
+        if (city) {
+          getWeatherData(city);
+        }
+      });
+      function getWeatherData(city) {
+        const apiurl=`https://api.weatherapi.com/v1/current.json?key=c52a4898b8a8446db0771443242707&q=${city}&aqi=no`
+        fetch(apiurl)
+          .then((res) => res.json())
+          .then((data) => {
+           console.log(data);
+           cityElement.textContent=`Location: ${data.location.name}`
+           weatherIconElement.src=`${data.current.condition.icon}`
+           temperatureElement.textContent=`Temperature: ${data.current.temp_c}°C`
+           humidityElement.textContent=`Humidity: ${data.current.humidity}`
+           windSpeedElement.textContent=`Wind Speed: ${data.current.wind_mph}km/h`
+           time.textContent=`Current Time: ${data.location.localtime}`
+          })
+          .catch((err) => {
+            console.log(err);
+            alert(`An error: ${err.message}`);
+          });
+      }
+    </script>
+  </body>
+</html>
