@@ -18,6 +18,9 @@
         width: 80%;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
       }
+      .weather-container:hover{
+        box-shadow:rgba(0,0,0,0.5) 2px 2px 3px;
+      }
       .city-input {
         margin-bottom: 20px;
         border: none;
@@ -31,7 +34,9 @@
         font-size: medium;
         outline:1px solid grey
       }
-      
+      #city-input:focus{
+        outline:2px solid blue
+      }
       #search-btn {
         padding: 10px 20px;
         font-size: medium;
@@ -42,6 +47,9 @@
         border: none;
         border-radius: 3px;
         cursor: pointer;
+      }
+      #search-btn:hover{
+        transform:scale(1.05,1.05);
       }
       .weather-info {
         text-align: center;
@@ -54,6 +62,7 @@
   </head>
   <body>
     <div class="weather-container">
+      <h1 id="titlename">Weather Forecast</h1>
       <img src="./w1.jfif" id="weather-icon" alt="" />
       <div class="city-input">
         <input type="text" id="city-input" placeholder="Enter city Name..." />
@@ -76,6 +85,7 @@
       const windSpeedElement = document.getElementById("wind-speed");
       const weatherInfo=document.querySelector('.weather-info')
       const time=document.createElement('h4')
+      const title=document.getElementById('titlename')
       weatherInfo.appendChild(time)
       searchBtn.addEventListener("click", () => {
         const city = cityInput.value;
@@ -95,6 +105,7 @@
            humidityElement.textContent=`Humidity: ${data.current.humidity}`
            windSpeedElement.textContent=`Wind Speed: ${data.current.wind_mph}km/h`
            time.textContent=`Current Time: ${data.location.localtime}`
+           title.textContent=`Weather Forecast for ${data.location.name}`
           })
           .catch((err) => {
             console.log(err);
